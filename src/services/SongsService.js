@@ -47,8 +47,21 @@ class SongsService {
     return result.rows.map(mapDBToSong)[0];
   }
 
-  async getAllSongs() {
-    const result = await this._pool.query('SELECT * FROM songs');
+  async getAllSongs({ title, performer }) {
+    const conditions = [];
+
+    if (title) {
+      conditions.push(`title ILIKE '%${title}%'`);
+    }
+
+    if (performer) {
+      conditions.push(`performer ILIKE '%${performer}%'`);
+    }
+
+    const whereClause = conditions.length > 0 ? `WHERE ${conditions.join(' AND ')}` : '';
+
+    const query = `SELECT * FROM songs ${whereClause}`;
+    const result = await this._pool.query(query);
     return result.rows.map(mapDBToAllSong);
   }
 
