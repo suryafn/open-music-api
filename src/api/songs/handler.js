@@ -45,9 +45,7 @@ class SongsHandler {
     return {
       status: 'success',
       data: {
-        songs: {
-          songs,
-        },
+        songs,
       },
     };
   }
@@ -58,9 +56,7 @@ class SongsHandler {
     return {
       status: 'success',
       data: {
-        song: {
-          song,
-        },
+        song,
       },
     };
   }
