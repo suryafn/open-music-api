@@ -1,6 +1,6 @@
 const { nanoid } = require('nanoid');
 const { Pool } = require('pg');
-const { mapDBToSong, mapDBToAllSong } = require('../utils');
+const { mapDBToSong } = require('../utils');
 const InvariantError = require('../exceptions/InvariantError');
 const NotFoundError = require('../exceptions/NotFoundError');
 
@@ -60,9 +60,9 @@ class SongsService {
 
     const whereClause = conditions.length > 0 ? `WHERE ${conditions.join(' AND ')}` : '';
 
-    const query = `SELECT * FROM songs ${whereClause}`;
+    const query = `SELECT id, title, performer FROM songs ${whereClause}`;
     const result = await this._pool.query(query);
-    return result.rows.map(mapDBToAllSong);
+    return result.rows;
   }
 
   async editSongById(id, {
